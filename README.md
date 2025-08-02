@@ -30,4 +30,4 @@ A simple and fun Pac-Man clone implemented in **Java** using **Swing**.
 2. Compile your Java files if not already done:
 
 ```bash
-javac -d bin src/*.java
+java -cp bin App
