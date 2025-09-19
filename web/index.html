@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🟡 Pac-Man Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .game-container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid #ffd700;
+        }
+
+        h1 {
+            color: #ffd700;
+            font-size: 2.5em;
+            margin: 0 0 20px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        canvas {
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+            background: #000;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .controls {
+            margin: 20px 0;
+            font-size: 1.1em;
+        }
+
+        .controls p {
+            margin: 5px 0;
+            color: #ccc;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .score-item {
+            padding: 10px 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid #ffd700;
+            border-radius: 8px;
+        }
+
+        .game-over {
+            color: #ff4444;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .instructions {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            max-width: 600px;
+        }
+
+        @media (max-width: 768px) {
+            canvas {
+                width: 95vw;
+                height: auto;
+            }
+            
+            .score-board {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>🟡 PAC-MAN</h1>
+        
+        <div class="score-board">
+            <div class="score-item">
+                <span>Lives: </span><span id="lives">3</span>
+            </div>
+            <div class="score-item">
+                <span>Score: </span><span id="score">0</span>
+            </div>
+            <div class="score-item">
+                <span>High Score: </span><span id="highScore">0</span>
+            </div>
+        </div>
+
+        <canvas id="gameCanvas" width="608" height="672"></canvas>
+        
+        <div id="gameOverMessage" class="game-over" style="display: none;">
+            GAME OVER! Press SPACE to restart
+        </div>
+
+        <div class="controls">
+            <p><strong>🎮 Controls:</strong></p>
+            <p>↑ ↓ ← → Arrow Keys - Move Pac-Man</p>
+            <p>SPACE - Restart after Game Over</p>
+        </div>
+
+        <div class="instructions">
+            <h3>🎯 How to Play:</h3>
+            <p>• Eat all the dots to advance to the next level</p>
+            <p>• Avoid the colorful ghosts - they will cost you a life!</p>
+            <p>• You have 3 lives to get the highest score possible</p>
+            <p>• Use arrow keys to navigate through the maze</p>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
