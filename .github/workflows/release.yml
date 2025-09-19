@@ -1,0 +1,83 @@
+name: Build and Release Pac-Man
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers on version tags like v1.0, v1.1, etc.
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Create bin directory
+      run: mkdir -p bin
+      
+    - name: Copy image resources
+      run: cp src/*.png bin/
+      
+    - name: Compile Java files
+      run: javac -d bin src/*.java
+      
+    - name: Create JAR file
+      run: |
+        cd bin
+        jar cfe PacMan.jar App *.class *.png
+        cd ..
+        
+    - name: Verify JAR creation
+      run: |
+        ls -la bin/
+        file bin/PacMan.jar
+        
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Pac-Man ${{ github.ref }}
+        body: |
+          🎮 **Pac-Man Game Release**
+          
+          Download the JAR file below and run it with:
+          ```
+          java -jar PacMan.jar
+          ```
+          
+          **Requirements:**
+          - Java 8 or higher installed
+          - Desktop environment (Windows, macOS, Linux)
+          
+          **How to play:**
+          - Use arrow keys to move Pac-Man
+          - Eat all the dots to advance to the next level
+          - Avoid the ghosts!
+          - Press any key after game over to restart
+          
+          **Changes in this release:**
+          - Built automatically from source
+          - Includes all game assets
+        draft: false
+        prerelease: false
+        
+    - name: Upload JAR to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./bin/PacMan.jar
+        asset_name: PacMan.jar
+        asset_content_type: application/java-archive
